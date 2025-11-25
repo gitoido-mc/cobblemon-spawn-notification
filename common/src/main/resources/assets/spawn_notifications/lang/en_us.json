@@ -1,0 +1,43 @@
+{
+  "spawn_notifications.notifications.spawned.legendary": "A legendary %1$s spawned at %2$s!",
+  "spawn_notifications.notifications.spawned.mythical": "A mythical %1$s spawned at %2$s!",
+  "spawn_notifications.notifications.spawned.ultra_beast": "A Ultra Beast %1$s spawned at %2$s!",
+  "spawn_notifications.notifications.spawned.paradox": "A Paradox Pokémon %1$s spawned at %2$s!",
+  "spawn_notifications.notifications.spawned.legendary.shiny": "A shiny legendary %1$s spawned at %2$s!",
+  "spawn_notifications.notifications.spawned.mythical.shiny": "A shiny mythical %1$s spawned at %2$s!",
+  "spawn_notifications.notifications.spawned.ultra_beast.shiny": "A shiny Ultra Beast %1$s spawned at %2$s!",
+  "spawn_notifications.notifications.spawned.paradox.shiny": "A shiny Paradox Pokémon %1$s spawned at %2$s!",
+  "spawn_notifications.notifications.spawned.shiny": "A shiny %1$s spawned at %2$s!",
+
+  "spawn_notifications.notifications.captured.legendary": "A legendary %1$s was captured at %2$s!",
+  "spawn_notifications.notifications.captured.mythical": "A mythical %1$s was captured at %2$s!",
+  "spawn_notifications.notifications.captured.ultra_beast": "A Ultra Beast %1$s was captured at %2$s!",
+  "spawn_notifications.notifications.captured.paradox": "A Paradox Pokémon %1$s was captured at %2$s!",
+  "spawn_notifications.notifications.captured.legendary.shiny": "A shiny legendary %1$s was captured at %2$s!",
+  "spawn_notifications.notifications.captured.mythical.shiny": "A shiny mythical %1$s was captured at %2$s!",
+  "spawn_notifications.notifications.captured.ultra_beast.shiny": "A shiny Ultra Beast %1$s was captured at %2$s!",
+  "spawn_notifications.notifications.captured.paradox.shiny": "A shiny Paradox Pokémon %1$s was captured at %2$s!",
+  "spawn_notifications.notifications.captured.shiny": "A shiny %1$s was captured at %2$s!",
+
+  "spawn_notifications.notifications.fainted.legendary": "A legendary %1$s was defeated at %2$s!",
+  "spawn_notifications.notifications.fainted.mythical": "A mythical %1$s was defeated at %2$s!",
+  "spawn_notifications.notifications.fainted.ultra_beast": "A Ultra Beast %1$s was defeated at %2$s!",
+  "spawn_notifications.notifications.fainted.paradox": "A Paradox Pokémon %1$s was defeated at %2$s!",
+  "spawn_notifications.notifications.fainted.legendary.shiny": "A shiny legendary %1$s was defeated at %2$s!",
+  "spawn_notifications.notifications.fainted.mythical.shiny": "A shiny mythical %1$s was defeated at %2$s!",
+  "spawn_notifications.notifications.fainted.ultra_beast.shiny": "A shiny Ultra Beast %1$s was defeated at %2$s!",
+  "spawn_notifications.notifications.fainted.paradox.shiny": "A shiny Paradox Pokémon %1$s was defeated at %2$s!",
+  "spawn_notifications.notifications.fainted.shiny": "A shiny %1$s was defeated at %2$s!",
+
+  "spawn_notifications.notifications.despawned.legendary": "A legendary %1$s despawned at %2$s!",
+  "spawn_notifications.notifications.despawned.mythical": "A mythical %1$s despawned at %2$s!",
+  "spawn_notifications.notifications.despawned.ultra_beast": "A Ultra Beast %1$s despawned at %2$s!",
+  "spawn_notifications.notifications.despawned.paradox": "A Paradox Pokémon %1$s despawned at %2$s!",
+  "spawn_notifications.notifications.despawned.legendary.shiny": "A shiny legendary %1$s despawned at %2$s!",
+  "spawn_notifications.notifications.despawned.mythical.shiny": "A shiny mythical %1$s despawned at %2$s!",
+  "spawn_notifications.notifications.despawned.ultra_beast.shiny": "A shiny Ultra Beast %1$s despawned at %2$s!",
+  "spawn_notifications.notifications.despawned.paradox.shiny": "A shiny Paradox Pokémon %1$s despawned at %2$s!",
+  "spawn_notifications.notifications.despawned.shiny": "A shiny %1$s despawned at %2$s!",
+
+  "spawn_notifications.parts.coords": "%1$s, %2$s, %3$s"
+}
