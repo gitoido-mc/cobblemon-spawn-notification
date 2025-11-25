@@ -5,7 +5,7 @@
   "triggers": [
     "spawn_notification:spawned"
   ],
-  "message": "spawn_notifications.notifications.spawned.mythical",
+  "message": "spawn_notification.notification.spawned.mythical",
   "parts": [
     "spawn_notification:pokemon_species",
     "spawn_notification:coordinates"

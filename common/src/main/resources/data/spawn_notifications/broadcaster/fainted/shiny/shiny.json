@@ -5,7 +5,7 @@
   "triggers": [
     "spawn_notification:fainted"
   ],
-  "message": "spawn_notifications.notifications.fainted.shiny",
+  "message": "spawn_notification.notification.fainted.shiny",
   "parts": [
     "spawn_notification:pokemon_species",
     "spawn_notification:coordinates"
