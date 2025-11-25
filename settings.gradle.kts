@@ -1,4 +1,4 @@
-rootProject.name = "cobblemon-spawn-notifications"
+rootProject.name = "cobblemon-spawn-notification"
 
 pluginManagement {
     repositories {

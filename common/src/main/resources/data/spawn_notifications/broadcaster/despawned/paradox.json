@@ -5,7 +5,7 @@
   "triggers": [
     "spawn_notification:despawned"
   ],
-  "message": "spawn_notifications.notifications.despawned.paradox",
+  "message": "spawn_notification.notification.despawned.paradox",
   "parts": [
     "spawn_notification:pokemon_species",
     "spawn_notification:coordinates"

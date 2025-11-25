@@ -4,7 +4,7 @@
   "triggers": [
     "spawn_notification:captured"
   ],
-  "message": "spawn_notifications.notifications.captured.legendary.shiny",
+  "message": "spawn_notification.notification.captured.legendary.shiny",
   "parts": [
     "spawn_notification:pokemon_species",
     "spawn_notification:coordinates"
