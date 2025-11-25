@@ -5,7 +5,7 @@
   "triggers": [
     "spawn_notification:captured"
   ],
-  "message": "spawn_notifications.notifications.captured.ultra_beast",
+  "message": "spawn_notification.notification.captured.ultra_beast",
   "parts": [
     "spawn_notification:pokemon_species",
     "spawn_notification:coordinates"

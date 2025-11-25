@@ -25,12 +25,12 @@ import us.timinc.mc.cobblemon.timcore.TimCoreEvents
 const val MOD_ID: String = "spawn_notification"
 
 object SpawnNotification :
-    AbstractMod<SpawnNotification.SpawnNotificationsConfig>(MOD_ID, SpawnNotificationsConfig::class.java) {
-    class SpawnNotificationsConfig : AbstractConfig() {
+    AbstractMod<SpawnNotification.SpawnNotificationConfig>(MOD_ID, SpawnNotificationConfig::class.java) {
+    class SpawnNotificationConfig : AbstractConfig() {
         val broadcastRange: Int = -1
         val playerLimit: Int = -1
         val broadcastAcrossDimensions: Boolean = false
-        val coordinatesPartKey: String = "spawn_notifications.parts.coords"
+        val coordinatePartKey: String = "spawn_notification.parts.coords"
     }
 
     object KEYS {
@@ -90,7 +90,7 @@ object SpawnNotification :
             Component.translatable("biome.${biome.unwrapKey().get().location().toLanguageKey()}")
 
         fun coordinates(blockPos: BlockPos): MutableComponent =
-            Component.translatable(config.coordinatesPartKey, blockPos.x, blockPos.y, blockPos.z)
+            Component.translatable(config.coordinatePartKey, blockPos.x, blockPos.y, blockPos.z)
     }
 
     init {

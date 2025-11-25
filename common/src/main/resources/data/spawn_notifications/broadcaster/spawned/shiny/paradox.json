@@ -4,7 +4,7 @@
   "triggers": [
     "spawn_notification:spawned"
   ],
-  "message": "spawn_notifications.notifications.spawned.paradox.shiny",
+  "message": "spawn_notification.notification.spawned.paradox.shiny",
   "parts": [
     "spawn_notification:pokemon_species",
     "spawn_notification:coordinates"

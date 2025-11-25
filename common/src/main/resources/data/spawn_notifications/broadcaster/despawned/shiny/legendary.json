@@ -4,7 +4,7 @@
   "triggers": [
     "spawn_notification:despawned"
   ],
-  "message": "spawn_notifications.notifications.despawned.legendary.shiny",
+  "message": "spawn_notification.notification.despawned.legendary.shiny",
   "parts": [
     "spawn_notification:pokemon_species",
     "spawn_notification:coordinates"
