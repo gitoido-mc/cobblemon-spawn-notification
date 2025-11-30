@@ -1,6 +1,10 @@
 {
-  "matcher": ["labels=legendary"],
-  "antiMatcher": ["shiny"],
+  "matcher": [
+    "labels=legendary"
+  ],
+  "antiMatcher": [
+    "shiny"
+  ],
   "destination": "spawn_notification:chat",
   "triggers": [
     "spawn_notification:despawned"

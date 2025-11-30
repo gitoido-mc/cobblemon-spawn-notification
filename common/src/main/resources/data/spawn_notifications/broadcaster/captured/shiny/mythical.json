@@ -1,5 +1,7 @@
 {
-  "matcher": ["labels=mythical shiny"],
+  "matcher": [
+    "labels=mythical shiny"
+  ],
   "destination": "spawn_notification:chat",
   "triggers": [
     "spawn_notification:captured"

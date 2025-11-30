@@ -12,7 +12,8 @@ object FaintTrigger : AbstractHandler<BattleFaintedEvent>() {
         val pokemon = evt.killed.effectedPokemon
         if (!pokemon.isWild()) return
         val entity = evt.killed.entity ?: return
-        val fainter = evt.killed.facedOpponents.firstOrNull { it.effectedPokemon.getOwnerPlayer() != null }?.effectedPokemon?.getOwnerPlayer()
+        val fainter =
+            evt.killed.facedOpponents.firstOrNull { it.effectedPokemon.getOwnerPlayer() != null }?.effectedPokemon?.getOwnerPlayer()
         Broadcaster.broadcast(
             BroadcastContext(
                 pokemon,

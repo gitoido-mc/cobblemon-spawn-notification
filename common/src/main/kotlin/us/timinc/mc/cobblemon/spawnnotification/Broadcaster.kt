@@ -3,7 +3,6 @@ package us.timinc.mc.cobblemon.spawnnotification
 import net.minecraft.resources.ResourceLocation
 import us.timinc.mc.cobblemon.spawnnotification.context.BroadcastContext
 import us.timinc.mc.cobblemon.spawnnotification.data.AbstractBroadcastData
-import us.timinc.mc.cobblemon.timcore.TimCore
 
 object Broadcaster {
     fun broadcast(broadcastContext: BroadcastContext, trigger: ResourceLocation) {

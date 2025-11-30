@@ -8,7 +8,6 @@
   "spawn_notification.notification.spawned.ultra_beast.shiny": "A §6Shiny§r §cUltra Beast§r %1$s spawned at %2$s!",
   "spawn_notification.notification.spawned.paradox.shiny": "A §6Shiny§r §aParadox§r Pokémon %1$s spawned at %2$s!",
   "spawn_notification.notification.spawned.shiny": "A §6Shiny§r %1$s spawned at %2$s!",
-
   "spawn_notification.notification.captured.legendary": "The §dLegendary§r %1$s was captured at %2$s!",
   "spawn_notification.notification.captured.mythical": "The §bMythical§r %1$s was captured at %2$s!",
   "spawn_notification.notification.captured.ultra_beast": "The §cUltra Beast§r %1$s was captured at %2$s!",
@@ -18,7 +17,6 @@
   "spawn_notification.notification.captured.ultra_beast.shiny": "A §6Shiny§r §cUltra Beast§r %1$s was captured at %2$s!",
   "spawn_notification.notification.captured.paradox.shiny": "A §6Shiny§r §aParadox§r Pokémon %1$s was captured at %2$s!",
   "spawn_notification.notification.captured.shiny": "A §6Shiny§r %1$s was captured at %2$s!",
-
   "spawn_notification.notification.fainted.legendary": "The §dLegendary§r %1$s was defeated at %2$s!",
   "spawn_notification.notification.fainted.mythical": "The §bMythical§r %1$s was defeated at %2$s!",
   "spawn_notification.notification.fainted.ultra_beast": "The §cUltra Beast§r %1$s was defeated at %2$s!",
@@ -28,7 +26,6 @@
   "spawn_notification.notification.fainted.ultra_beast.shiny": "A §6Shiny§r §cUltra Beast§r %1$s was defeated at %2$s!",
   "spawn_notification.notification.fainted.paradox.shiny": "A §6Shiny§r §aParadox§r Pokémon %1$s was defeated at %2$s!",
   "spawn_notification.notification.fainted.shiny": "A §6Shiny§r %1$s was defeated at %2$s!",
-
   "spawn_notification.notification.despawned.legendary": "The §dLegendary§r %1$s despawned at %2$s!",
   "spawn_notification.notification.despawned.mythical": "The §bMythical§r %1$s despawned at %2$s!",
   "spawn_notification.notification.despawned.ultra_beast": "The §cUltra Beast§r %1$s despawned at %2$s!",
@@ -38,6 +35,5 @@
   "spawn_notification.notification.despawned.ultra_beast.shiny": "A §6Shiny§r §cUltra Beast§r %1$s despawned at %2$s!",
   "spawn_notification.notification.despawned.paradox.shiny": "A §6Shiny§r §aParadox§r Pokémon %1$s despawned at %2$s!",
   "spawn_notification.notification.despawned.shiny": "A §6Shiny§r %1$s despawned at %2$s!",
-
   "spawn_notification.parts.coords": "%1$s, %2$s, %3$s"
 }

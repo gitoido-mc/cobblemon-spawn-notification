@@ -1,6 +1,10 @@
 {
-  "matcher": ["labels=ultra_beast"],
-  "antiMatcher": ["shiny"],
+  "matcher": [
+    "labels=ultra_beast"
+  ],
+  "antiMatcher": [
+    "shiny"
+  ],
   "destination": "spawn_notification:chat",
   "triggers": [
     "spawn_notification:fainted"

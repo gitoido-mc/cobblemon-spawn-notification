@@ -1,6 +1,10 @@
 {
-  "matcher": ["labels=paradox"],
-  "antiMatcher": ["shiny"],
+  "matcher": [
+    "labels=paradox"
+  ],
+  "antiMatcher": [
+    "shiny"
+  ],
   "destination": "spawn_notification:chat",
   "triggers": [
     "spawn_notification:spawned"
