@@ -5,12 +5,6 @@
   ],
   "conditions": [
     {
-      "type": "spawn_notification:flag",
-      "flags": [
-        "spawn_notification:trigger/fainted"
-      ]
-    },
-    {
       "type": "spawn_notification:matcher",
       "matcher": [
         "labels=legendary,mythical,ultra_beast,paradox any_label",
