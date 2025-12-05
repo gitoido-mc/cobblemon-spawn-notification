@@ -3,20 +3,34 @@ package us.timinc.mc.cobblemon.spawnnotification
 import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.pokemon.FormData
+import net.minecraft.ChatFormatting
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Holder
+import net.minecraft.core.Registry
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.level.Level
-import us.timinc.mc.cobblemon.spawnnotification.data.AbstractBroadcastData
-import us.timinc.mc.cobblemon.spawnnotification.destination.ActionBar
-import us.timinc.mc.cobblemon.spawnnotification.destination.Chat
-import us.timinc.mc.cobblemon.spawnnotification.destination.Destination
-import us.timinc.mc.cobblemon.spawnnotification.destination.Sound
+import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.Broadcast
+import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastType
+import us.timinc.mc.cobblemon.spawnnotification.api.condition.BroadcastCondition
+import us.timinc.mc.cobblemon.spawnnotification.api.condition.BroadcastConditionType
+import us.timinc.mc.cobblemon.spawnnotification.api.message.Part
+import us.timinc.mc.cobblemon.spawnnotification.api.message.Segment
+import us.timinc.mc.cobblemon.spawnnotification.api.message.SegmentType
+import us.timinc.mc.cobblemon.spawnnotification.broadcast.ActionBarBroadcast
+import us.timinc.mc.cobblemon.spawnnotification.broadcast.ChatBroadcast
+import us.timinc.mc.cobblemon.spawnnotification.broadcast.SoundBroadcast
+import us.timinc.mc.cobblemon.spawnnotification.condition.FlagCondition
+import us.timinc.mc.cobblemon.spawnnotification.condition.MatcherCondition
+import us.timinc.mc.cobblemon.spawnnotification.data.NotificationData
+import us.timinc.mc.cobblemon.spawnnotification.data.SegmentData
 import us.timinc.mc.cobblemon.spawnnotification.handler.*
 import us.timinc.mc.cobblemon.spawnnotification.part.*
-import us.timinc.mc.cobblemon.spawnnotification.registry.LazyRegistry
+import us.timinc.mc.cobblemon.spawnnotification.segment.FullSegment
+import us.timinc.mc.cobblemon.spawnnotification.segment.PartSegment
+import us.timinc.mc.cobblemon.spawnnotification.segment.ReferenceSegment
 import us.timinc.mc.cobblemon.timcore.AbstractConfig
 import us.timinc.mc.cobblemon.timcore.AbstractMod
 import us.timinc.mc.cobblemon.timcore.CustomBooleanProperty
@@ -31,6 +45,20 @@ object SpawnNotification :
         val playerLimit: Int = -1
         val broadcastAcrossDimensions: Boolean = false
         val coordinatePartKey: String = "spawn_notification.parts.coords"
+        val disabledFlags: List<String> = listOf(
+            "spawn_notification:waypoints/xaeros",
+            "spawn_notification:waypoints/journeymap"
+        )
+        val baseColor: String = ChatFormatting.GRAY.name
+        val baseColors: Map<String, String> = mapOf(
+            "spawn_notification:pokemon_species" to ChatFormatting.WHITE.name,
+            "spawn_notification:pokemon_form" to ChatFormatting.WHITE.name,
+            "spawn_notification:player_name" to ChatFormatting.WHITE.name,
+            "spawn_notification:coordinates" to ChatFormatting.WHITE.name,
+            "spawn_notification:biome" to ChatFormatting.WHITE.name,
+            "spawn_notification:dimension" to ChatFormatting.WHITE.name,
+            "spawn_notification:bucket" to ChatFormatting.WHITE.name,
+        )
     }
 
     object KEYS {
@@ -61,16 +89,22 @@ object SpawnNotification :
             val BUCKET = modResource("bucket")
         }
 
+        object CONDITIONS {
+            val MATCHER = modResource("matcher")
+            val FLAG = modResource("flag")
+        }
+
+        object SEGMENTS {
+            val REFERENCE = modResource("reference")
+            val PART = modResource("part")
+            val FULL = modResource("full")
+        }
+
         @Suppress("ClassName")
         object POKEMON_PROPERTIES {
             val SPAWN_BROADCASTED = modResource("spawn_broadcasted")
             val DESPAWN_BROADCASTED = modResource("despawn_broadcasted")
         }
-    }
-
-    object REGISTRIES {
-        val PARTS = LazyRegistry<Part>(modResource("parts"))
-        val DESTINATIONS = LazyRegistry<Destination<out AbstractBroadcastData<*>>>(modResource("destinations"))
     }
 
     @Suppress("ClassName")
@@ -93,20 +127,69 @@ object SpawnNotification :
             Component.translatable(config.coordinatePartKey, blockPos.x, blockPos.y, blockPos.z)
     }
 
+    object BroadcastTypes {
+        val CHAT_BROADCAST = register(KEYS.DESTINATIONS.CHAT, ChatBroadcast.BROADCAST_TYPE)
+        val ACTION_BAR_BROADCAST = register(KEYS.DESTINATIONS.ACTION_BAR, ActionBarBroadcast.BROADCAST_TYPE)
+        val SOUND_BROADCAST = register(KEYS.DESTINATIONS.SOUND, SoundBroadcast.BROADCAST_TYPE)
+
+        fun <P, C, T : Broadcast<P, C>> register(
+            id: ResourceLocation,
+            broadcastType: BroadcastType<P, C, T>,
+        ): BroadcastType<P, C, T> {
+            return Registry.register(BroadcastType.REGISTRY, id, broadcastType)
+        }
+    }
+
+    object Parts {
+        val BIOME = register(KEYS.PARTS.BIOME, Biome)
+        val BUCKET = register(KEYS.PARTS.BUCKET, Bucket)
+        val COORDINATES = register(KEYS.PARTS.COORDINATES, Coordinates)
+        val DIMENSION = register(KEYS.PARTS.DIMENSION, Dimension)
+        val PLAYER_NAME = register(KEYS.PARTS.PLAYER_NAME, PlayerName)
+        val POKEMON_FORM = register(KEYS.PARTS.POKEMON_FORM, PokemonForm)
+        val POKEMON_SPECIES = register(KEYS.PARTS.POKEMON_SPECIES, PokemonSpecies)
+
+        fun <T : Part> register(
+            id: ResourceLocation,
+            part: T,
+        ): T {
+            return Registry.register(Part.REGISTRY, id, part)
+        }
+    }
+
+    object ConditionTypes {
+        val MATCHER = register(KEYS.CONDITIONS.MATCHER, MatcherCondition.CONDITION_TYPE)
+        val FLAG = register(KEYS.CONDITIONS.FLAG, FlagCondition.CONDITION_TYPE)
+
+        fun <T : BroadcastCondition> register(
+            id: ResourceLocation,
+            broadcastConditionType: BroadcastConditionType<T>,
+        ): BroadcastConditionType<T> {
+            return Registry.register(BroadcastConditionType.REGISTRY, id, broadcastConditionType)
+        }
+    }
+
+    object SegmentTypes {
+        val REFERENCE = register(KEYS.SEGMENTS.REFERENCE, ReferenceSegment.SEGMENT_TYPE)
+        val PART = register(KEYS.SEGMENTS.PART, PartSegment.SEGMENT_TYPE)
+        val FULL = register(KEYS.SEGMENTS.FULL, FullSegment.SEGMENT_TYPE)
+
+        fun <T : Segment> register(
+            id: ResourceLocation,
+            segmentType: SegmentType<T>,
+        ): SegmentType<T> {
+            return Registry.register(SegmentType.REGISTRY, id, segmentType)
+        }
+    }
+
     init {
-        registerReloadListener(AbstractBroadcastData.Manager)
+        BroadcastTypes
+        Parts
+        ConditionTypes
+        SegmentTypes
 
-        REGISTRIES.PARTS.register(KEYS.PARTS.POKEMON_SPECIES, PokemonSpecies)
-        REGISTRIES.PARTS.register(KEYS.PARTS.POKEMON_FORM, PokemonForm)
-        REGISTRIES.PARTS.register(KEYS.PARTS.PLAYER_NAME, PlayerName)
-        REGISTRIES.PARTS.register(KEYS.PARTS.COORDINATES, Coordinates)
-        REGISTRIES.PARTS.register(KEYS.PARTS.BIOME, Biome)
-        REGISTRIES.PARTS.register(KEYS.PARTS.DIMENSION, Dimension)
-        REGISTRIES.PARTS.register(KEYS.PARTS.BUCKET, Bucket)
-
-        REGISTRIES.DESTINATIONS.register(KEYS.DESTINATIONS.CHAT, Chat)
-        REGISTRIES.DESTINATIONS.register(KEYS.DESTINATIONS.ACTION_BAR, ActionBar)
-        REGISTRIES.DESTINATIONS.register(KEYS.DESTINATIONS.SOUND, Sound)
+        registerReloadListener(SegmentData)
+        registerReloadListener(NotificationData.Manager)
 
         TimCoreEvents.POKEMON_ENTITY_DID_SPAWN.subscribe(Priority.NORMAL, SpawnTriggers::handle)
         TimCoreEvents.POKEMON_ENTITY_LOAD.subscribe(Priority.LOWEST, UnnaturalSpawnTrigger::handle)
