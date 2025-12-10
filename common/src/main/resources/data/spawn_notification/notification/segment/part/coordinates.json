@@ -1,0 +1,18 @@
+{
+  "type": "spawn_notification:full",
+  "message": "spawn_notification.parts.coords",
+  "segments": {
+    "1": {
+      "type": "spawn_notification:part",
+      "part": "spawn_notification:coord_x"
+    },
+    "2": {
+      "type": "spawn_notification:part",
+      "part": "spawn_notification:coord_y"
+    },
+    "3": {
+      "type": "spawn_notification:part",
+      "part": "spawn_notification:coord_z"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "spawn_notification:full",
+  "segments": {
+    "1": {
+      "type": "spawn_notification:part",
+      "part": "spawn_notification:pokemon_species"
+    }
+  }
+}

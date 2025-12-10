@@ -1,0 +1,16 @@
+{
+  "triggers": [
+    "spawn_notification:hatched"
+  ],
+  "conditions": [
+    {
+      "type": "spawn_notification:matcher",
+      "matcher": [
+        "labels=legendary"
+      ]
+    }
+  ],
+  "otherSituations": [
+    "spawn_notification:special/hatched"
+  ]
+}

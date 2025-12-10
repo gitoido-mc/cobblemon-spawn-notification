@@ -4,7 +4,7 @@ import com.cobblemon.mod.common.api.events.battles.BattleFaintedEvent
 import net.minecraft.server.level.ServerLevel
 import us.timinc.mc.cobblemon.spawnnotification.Broadcaster
 import us.timinc.mc.cobblemon.spawnnotification.SpawnNotification
-import us.timinc.mc.cobblemon.spawnnotification.context.BroadcastContext
+import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
 import us.timinc.mc.cobblemon.timcore.AbstractHandler
 
 object FaintTrigger : AbstractHandler<BattleFaintedEvent>() {
