@@ -52,7 +52,13 @@ class ChatBroadcast(
                 .apply(instance) { destination, message, segments, broadcastRange, playerLimit, broadcastAcrossDimensions, actionBar, delimiter, before, after ->
                     ChatBroadcast(
                         destination,
-                        Message(message.getOrNull(), SegmentList(SegmentList.fromEither(segments)), delimiter, before, after),
+                        Message(
+                            message.getOrNull(),
+                            SegmentList(SegmentList.fromEither(segments)),
+                            delimiter,
+                            before,
+                            after
+                        ),
                         broadcastRange,
                         playerLimit,
                         broadcastAcrossDimensions,

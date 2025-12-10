@@ -19,7 +19,7 @@ object SegmentAdditionDataManager : AbstractReloadListener(Gson(), "notification
     ) {
         additions.clear()
         objectMap.entries.forEach { (id, json) ->
-            val addition = SegmentAddition.Companion.CODEC.parse(JsonOps.INSTANCE, json).orThrow
+            val addition = SegmentAddition.CODEC.parse(JsonOps.INSTANCE, json).orThrow
             addition.id = id
             val additionList = additions.getOrPut(addition.target, ::mutableListOf)
             additionList += addition

@@ -2,7 +2,6 @@ package us.timinc.mc.cobblemon.spawnnotification.api.message
 
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.resources.ResourceLocation
 import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
 
 /**
@@ -21,7 +20,8 @@ class Message(
     fun compose(context: BroadcastContext.WithSituations): MutableComponent? {
         val translatedSegments = segments.compose(context)
         if (translatedSegments.isEmpty() && message == null) return null
-        val usedMessage = message ?: "$before${List(translatedSegments.size) { i -> $$"%$${ i + 1 }$s" }.joinToString(delimiter)}$after"
+        val usedMessage =
+            message ?: "$before${List(translatedSegments.size) { i -> $$"%$${i + 1}$s" }.joinToString(delimiter)}$after"
         if (usedMessage.isEmpty()) return Component.empty()
         return Component.translatable(usedMessage, *translatedSegments)
     }

@@ -41,7 +41,13 @@ class FullSegment(
                 Codec.STRING.optionalFieldOf("after", "").forGetter(FullSegment::after),
             ).apply(instance) { message, segments, fallback, conditions, delimiter, before, after ->
                 FullSegment(
-                    Message(message.getOrNull(), SegmentList(SegmentList.fromEither(segments)), delimiter, before, after),
+                    Message(
+                        message.getOrNull(),
+                        SegmentList(SegmentList.fromEither(segments)),
+                        delimiter,
+                        before,
+                        after
+                    ),
                     fallback,
                     conditions,
                 )

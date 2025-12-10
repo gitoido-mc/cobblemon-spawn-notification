@@ -5,7 +5,6 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.UnboundedMapCodec
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
-import us.timinc.mc.cobblemon.spawnnotification.SpawnNotification
 import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
 import us.timinc.mc.cobblemon.spawnnotification.api.codec.IntKeyCodec
 import us.timinc.mc.cobblemon.spawnnotification.api.extension.fromEitherOnRightMap
