@@ -64,7 +64,8 @@ object SpawnNotification :
                 listOf(
                     "spawn_notification:*/captured",
                     "spawn_notification:*/fished",
-                    "spawn_notification:*/resurrected"
+                    "spawn_notification:*/resurrected",
+                    "spawn_notification:*/hatched"
                 ),
                 listOf(
                     "spawn_notification:coordinates",

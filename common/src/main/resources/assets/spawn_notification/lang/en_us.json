@@ -7,6 +7,7 @@
   "spawn_notification.notification.died": "The %1$s%2$s was slain%3$s!",
   "spawn_notification.notification.despawned": "The %1$s%2$s despawned%3$s!",
   "spawn_notification.notification.resurrected": "The %1$s%2$s was resurrected%3$s!",
+  "spawn_notification.notification.hatched": "The %1$s%2$s was hatched%3$s!",
 
   "spawn_notification.labels.legendary": "§dLegendary§r",
   "spawn_notification.labels.mythical": "§bMythical§r",

@@ -1,0 +1,14 @@
+{
+  "situations": [
+    "spawn_notification:special/hatched"
+  ],
+  "broadcast": {
+    "destination": "spawn_notification:chat",
+    "message": "spawn_notification.notification.hatched",
+    "segments": {
+      "1": "spawn_notification:packed/pre",
+      "2": "spawn_notification:packed/pokemon",
+      "3": "spawn_notification:packed/post"
+    }
+  }
+}
