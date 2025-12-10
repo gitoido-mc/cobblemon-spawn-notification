@@ -3,7 +3,6 @@ package us.timinc.mc.cobblemon.spawnnotification.api.broadcast
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import net.minecraft.resources.ResourceLocation
-import us.timinc.mc.cobblemon.spawnnotification.api.condition.BroadcastCondition
 
 interface Broadcast {
     companion object {
@@ -16,7 +15,7 @@ interface Broadcast {
     }
 
     fun getType(): BroadcastType<*>
-    fun deliver(broadcastContext: BroadcastContext)
+    fun deliver(broadcastContext: BroadcastContext.WithSituations)
 
     val destination: ResourceLocation
 }

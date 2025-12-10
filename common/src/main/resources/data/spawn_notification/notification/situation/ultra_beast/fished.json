@@ -1,13 +1,16 @@
 {
   "triggers": [
-    "spawn_notification:died"
+    "spawn_notification:fished"
   ],
   "conditions": [
     {
       "type": "spawn_notification:matcher",
       "matcher": [
-        "labels=legendary,mythical,ultra_beast,paradox any_label"
+        "labels=ultra_beast"
       ]
     }
+  ],
+  "otherSituations": [
+    "spawn_notification:special/fished"
   ]
 }

@@ -8,9 +8,18 @@ import us.timinc.mc.cobblemon.spawnnotification.data.SituationDataManager
 object Broadcaster {
     fun broadcast(broadcastContext: BroadcastContext, trigger: ResourceLocation) {
         val situations = SituationDataManager.findMatches(broadcastContext, trigger)
-        situations.forEach { notificationId ->
-            BroadcastDataManager.findAllBroadcastsForNotification(notificationId).forEach { broadcast ->
-                broadcast.deliver(broadcastContext)
+            .filter { situationId ->
+                !SpawnNotification.config.disabledSituations.any { disabledSituation ->
+                    disabledSituation.replace(
+                        "*",
+                        ".*"
+                    ).toRegex().matches(situationId.toString())
+                }
+            }
+        val broadcastContextWithSituations = broadcastContext.withSituations(situations)
+        situations.forEach { situationId ->
+            BroadcastDataManager.findAllBroadcastsForNotification(situationId).forEach { broadcast ->
+                broadcast.deliver(broadcastContextWithSituations)
             }
         }
     }

@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.UnboundedMapCodec
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
+import us.timinc.mc.cobblemon.spawnnotification.SpawnNotification
 import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
 import us.timinc.mc.cobblemon.spawnnotification.api.codec.IntKeyCodec
 import us.timinc.mc.cobblemon.spawnnotification.api.extension.fromEitherOnRightMap
@@ -33,7 +34,7 @@ class SegmentList(
     /**
      * Evaluates out the Map into a proper Array of Components, ready to be inserted into a translatable component.
      */
-    fun compose(context: BroadcastContext): Array<Component> {
+    fun compose(context: BroadcastContext.WithSituations): Array<Component> {
         val usedSegments = segments.toMutableMap()
         id?.let { id ->
             val additions = SegmentAdditionDataManager.getAdditionsFor(id)
@@ -51,7 +52,7 @@ class SegmentList(
         val maxIndex = validSegments.keys.maxOrNull() ?: return emptyArray()
         val composed: MutableList<Component?> = MutableList(maxIndex) { null }
         for ((index, segment) in validSegments) {
-            composed[index - 1] = segment.compose(context)
+            composed[index - 1] = segment.validateAndCompose(context)
         }
 
         return composed.filterNotNull().toTypedArray()

@@ -21,6 +21,7 @@ import us.timinc.mc.cobblemon.spawnnotification.api.message.SegmentType
 import us.timinc.mc.cobblemon.spawnnotification.broadcast.ChatBroadcast
 import us.timinc.mc.cobblemon.spawnnotification.broadcast.SoundBroadcast
 import us.timinc.mc.cobblemon.spawnnotification.condition.MatcherCondition
+import us.timinc.mc.cobblemon.spawnnotification.config.DisabledSegmentsPerSituations
 import us.timinc.mc.cobblemon.spawnnotification.data.BroadcastDataManager
 import us.timinc.mc.cobblemon.spawnnotification.data.SegmentAdditionDataManager
 import us.timinc.mc.cobblemon.spawnnotification.data.SegmentDataManager
@@ -49,14 +50,39 @@ object SpawnNotification :
             "spawn_notification:pokemon_species" to ChatFormatting.WHITE.name,
             "spawn_notification:pokemon_form" to ChatFormatting.WHITE.name,
             "spawn_notification:player_name" to ChatFormatting.WHITE.name,
-            "spawn_notification:coord_x" to ChatFormatting.WHITE.name,
-            "spawn_notification:coord_y" to ChatFormatting.WHITE.name,
-            "spawn_notification:coord_z" to ChatFormatting.WHITE.name,
             "spawn_notification:biome" to ChatFormatting.WHITE.name,
             "spawn_notification:dimension" to ChatFormatting.WHITE.name,
             "spawn_notification:bucket" to ChatFormatting.WHITE.name,
+            "spawn_notification:coord_x" to ChatFormatting.WHITE.name,
+            "spawn_notification:coord_y" to ChatFormatting.WHITE.name,
+            "spawn_notification:coord_z" to ChatFormatting.WHITE.name,
         )
-        val disabledSituations: Set<String> = mutableSetOf()
+        val disabledSituations: Set<String> = setOf()
+        val disabledSegments: Set<String> = setOf()
+        val disabledSegmentsBySituation: List<DisabledSegmentsPerSituations> = listOf(
+            DisabledSegmentsPerSituations(
+                listOf(
+                    "spawn_notification:*/captured",
+                    "spawn_notification:*/fished",
+                    "spawn_notification:*/resurrected"
+                ),
+                listOf(
+                    "spawn_notification:coordinates",
+                    "spawn_notification:biome",
+                    "spawn_notification:dimension"
+                )
+            ),
+            DisabledSegmentsPerSituations(
+                listOf(
+                    "spawn_notification:*/despawned",
+                    "spawn_notification:*/snacked",
+                    "spawn_notification:*/spawned"
+                ),
+                listOf(
+                    "spawn_notification:player"
+                )
+            )
+        )
     }
 
     object KEYS {

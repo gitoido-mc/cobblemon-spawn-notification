@@ -35,7 +35,7 @@ class PartSegment(
 
     override fun getType(): SegmentType<*> = SpawnNotification.SegmentTypes.PART
 
-    override fun compose(context: BroadcastContext): MutableComponent? =
+    override fun compose(context: BroadcastContext.WithSituations): MutableComponent? =
         (Part.REGISTRY[part]?.compose(context) ?: getFallback())?.withPossibleStyle(
             ChatFormatting.getByName(
                 SpawnNotification.config.partColors[part.toString()] ?: SpawnNotification.config.baseColor

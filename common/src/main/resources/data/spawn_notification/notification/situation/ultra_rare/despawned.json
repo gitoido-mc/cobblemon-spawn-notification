@@ -6,8 +6,11 @@
     {
       "type": "spawn_notification:matcher",
       "matcher": [
-        "labels=legendary,mythical,ultra_beast,paradox any_label"
+        "buckets=ultra-rare"
       ]
     }
+  ],
+  "otherSituations": [
+    "spawn_notification:special/despawned"
   ]
 }

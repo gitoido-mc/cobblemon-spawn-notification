@@ -66,7 +66,7 @@ class ChatBroadcast(
 
     override fun getType(): BroadcastType<*> = SpawnNotification.BroadcastTypes.CHAT_BROADCAST
 
-    override fun deliver(broadcastContext: BroadcastContext) {
+    override fun deliver(broadcastContext: BroadcastContext.WithSituations) {
         val debugger = SpawnNotification.debugger.getCaseDebugger(broadcastContext.id.toString())
         val message = message.compose(broadcastContext)
             ?.withPossibleStyle(ChatFormatting.getByName(SpawnNotification.config.baseColor)) ?: return

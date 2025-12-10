@@ -31,7 +31,7 @@ object SituationDataManager : AbstractReloadListener(Gson(), "notification/situa
     fun findMatches(context: BroadcastContext, trigger: ResourceLocation): Set<ResourceLocation> {
         val matches: MutableSet<ResourceLocation> = mutableSetOf()
         for (notification in notifications[trigger] ?: return emptySet()) {
-            if (notification.id != null && !notification.disabled && notification.matches(context)) {
+            if (notification.id != null && notification.matches(context) && !notification.disabled) {
                 matches += notification.id!!
                 matches += notification.otherSituations
             }

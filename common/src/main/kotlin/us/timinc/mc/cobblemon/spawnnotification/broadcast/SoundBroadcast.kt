@@ -11,7 +11,6 @@ import us.timinc.mc.cobblemon.spawnnotification.SpawnNotification
 import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.Broadcast
 import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
 import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastType
-import us.timinc.mc.cobblemon.spawnnotification.api.condition.BroadcastCondition
 
 class SoundBroadcast(
     override val destination: ResourceLocation,
@@ -37,7 +36,7 @@ class SoundBroadcast(
     override fun getType(): BroadcastType<*> = SpawnNotification.BroadcastTypes.SOUND_BROADCAST
 
     override fun deliver(
-        broadcastContext: BroadcastContext,
+        broadcastContext: BroadcastContext.WithSituations,
     ) {
         val soundEvent = SoundEvent.createVariableRangeEvent(sound)
         broadcastContext.world.playSoundServer(

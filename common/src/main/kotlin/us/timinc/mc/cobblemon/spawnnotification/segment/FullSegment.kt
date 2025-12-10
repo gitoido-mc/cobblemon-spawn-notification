@@ -59,6 +59,6 @@ class FullSegment(
 
     override fun getType(): SegmentType<*> = SpawnNotification.SegmentTypes.FULL
 
-    override fun compose(context: BroadcastContext): Component? =
+    override fun compose(context: BroadcastContext.WithSituations): Component? =
         if (!conditions.all { it.matches(context) }) getFallback() else message.compose(context)
 }

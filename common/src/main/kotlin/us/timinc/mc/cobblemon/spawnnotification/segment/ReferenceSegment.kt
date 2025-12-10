@@ -34,6 +34,6 @@ class ReferenceSegment(
 
     override fun getType(): SegmentType<*> = SpawnNotification.SegmentTypes.REFERENCE
 
-    override fun compose(context: BroadcastContext): Component? =
-        SegmentDataManager.find(ref)?.compose(context) ?: getFallback()
+    override fun compose(context: BroadcastContext.WithSituations): Component? =
+        SegmentDataManager.find(ref)?.validateAndCompose(context) ?: getFallback()
 }
