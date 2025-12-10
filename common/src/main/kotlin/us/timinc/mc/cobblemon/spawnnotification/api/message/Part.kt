@@ -8,6 +8,9 @@ import net.minecraft.resources.ResourceKey
 import us.timinc.mc.cobblemon.spawnnotification.SpawnNotification
 import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
 
+/**
+ * A message segment whose content depends on the context of the broadcast.
+ */
 interface Part {
     companion object {
         val REGISTRY: Registry<Part> = MappedRegistry(
@@ -16,5 +19,8 @@ interface Part {
         )
     }
 
+    /**
+     * Evaluates out the value of this message part.
+     */
     fun compose(context: BroadcastContext): MutableComponent?
 }

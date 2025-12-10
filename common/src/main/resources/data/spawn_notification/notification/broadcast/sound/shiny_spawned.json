@@ -1,0 +1,11 @@
+{
+  "situations": [
+    "spawn_notification:shiny/snacked",
+    "spawn_notification:shiny/spawned"
+  ],
+  "broadcast": {
+    "destination": "spawn_notification:sound",
+    "sound": "cobblemon:particle.wild_shiny_chime",
+    "volume": 10
+  }
+}

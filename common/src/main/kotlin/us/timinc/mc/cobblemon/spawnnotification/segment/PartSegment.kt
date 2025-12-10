@@ -13,7 +13,9 @@ import us.timinc.mc.cobblemon.spawnnotification.api.message.Part
 import us.timinc.mc.cobblemon.spawnnotification.api.message.Segment
 import us.timinc.mc.cobblemon.spawnnotification.api.message.SegmentType
 
-// A part segment, which uses internal logic to create a component to compose out to based on the context.
+/**
+ * A part segment, which uses internal logic to create a component to compose out to based on the context.
+ */
 class PartSegment(
     val part: ResourceLocation,
     override val fallback: String = "",
@@ -29,12 +31,14 @@ class PartSegment(
         val SEGMENT_TYPE = SegmentType(CODEC)
     }
 
+    override var id: ResourceLocation? = null
+
     override fun getType(): SegmentType<*> = SpawnNotification.SegmentTypes.PART
 
-    override fun compose(context: BroadcastContext): MutableComponent =
-        (Part.REGISTRY[part]?.compose(context) ?: getFallback()).withPossibleStyle(
+    override fun compose(context: BroadcastContext): MutableComponent? =
+        (Part.REGISTRY[part]?.compose(context) ?: getFallback())?.withPossibleStyle(
             ChatFormatting.getByName(
-                SpawnNotification.config.baseColors[part.toString()] ?: SpawnNotification.config.baseColor
+                SpawnNotification.config.partColors[part.toString()] ?: SpawnNotification.config.baseColor
             )
         )
 }

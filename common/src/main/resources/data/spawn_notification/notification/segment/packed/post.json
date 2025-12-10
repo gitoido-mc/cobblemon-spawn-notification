@@ -1,0 +1,11 @@
+{
+  "type": "spawn_notification:full",
+  "segments": {
+    "1": "spawn_notification:player",
+    "2": "spawn_notification:biome",
+    "3": "spawn_notification:dimension",
+    "4": "spawn_notification:coordinates"
+  },
+  "delimiter": " ",
+  "before": " "
+}

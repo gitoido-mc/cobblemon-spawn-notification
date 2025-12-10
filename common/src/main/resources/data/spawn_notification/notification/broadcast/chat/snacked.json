@@ -1,0 +1,14 @@
+{
+  "situations": [
+    "spawn_notification:special/snacked"
+  ],
+  "broadcast": {
+    "destination": "spawn_notification:chat",
+    "message": "spawn_notification.notification.snacked",
+    "segments": {
+      "1": "spawn_notification:packed/pre",
+      "2": "spawn_notification:packed/pokemon",
+      "3": "spawn_notification:packed/post"
+    }
+  }
+}

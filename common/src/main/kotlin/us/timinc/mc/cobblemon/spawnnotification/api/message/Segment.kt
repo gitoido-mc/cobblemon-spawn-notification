@@ -8,25 +8,38 @@ import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
 
-// Something that can be composed out to a Component, ready for use as a translatable component's subtitutions.
+/**
+ * Something that can be composed out to a Component, ready for use as a translatable component's substitutions.
+ */
 interface Segment {
     companion object {
+        val PURE_CODEC: Codec<Segment> = SegmentType.REGISTRY.byNameCodec().dispatch(
+            "type",
+            Segment::getType
+        ) {
+            @Suppress("UNCHECKED_CAST")
+            it.codec as MapCodec<Segment>
+        }
+
         val CODEC: Codec<Either<ResourceLocation, Segment>> = Codec.either(
             ResourceLocation.CODEC,
-            SegmentType.REGISTRY.byNameCodec().dispatch(
-                "type",
-                Segment::getType
-            ) {
-                @Suppress("UNCHECKED_CAST")
-                it.codec as MapCodec<Segment>
-            }
+            PURE_CODEC
         )
     }
 
+    var id: ResourceLocation?
     val fallback: String
 
     fun getType(): SegmentType<*>
-    fun compose(context: BroadcastContext): Component
-    fun getFallback(): MutableComponent =
-        if (fallback.isEmpty()) Component.empty() else Component.translatable(fallback)
+
+    /**
+     * Evaluates out a translatable component from this segment and the context.
+     */
+    fun compose(context: BroadcastContext): Component?
+
+    /**
+     * Convenience function to get the fallback value, including an empty one if necessary.
+     */
+    fun getFallback(): MutableComponent? =
+        if (fallback.isEmpty()) null else Component.translatable(fallback)
 }

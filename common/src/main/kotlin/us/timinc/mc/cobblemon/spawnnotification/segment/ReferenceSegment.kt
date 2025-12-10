@@ -9,10 +9,12 @@ import us.timinc.mc.cobblemon.spawnnotification.SpawnNotification
 import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
 import us.timinc.mc.cobblemon.spawnnotification.api.message.Segment
 import us.timinc.mc.cobblemon.spawnnotification.api.message.SegmentType
-import us.timinc.mc.cobblemon.spawnnotification.data.SegmentData
+import us.timinc.mc.cobblemon.spawnnotification.data.SegmentDataManager
 
-// A reference segment, which points to and composes based on a stand-alone segment in the registry, falling back if it
-// can't find it. May also be represented as a plain string.
+/**
+ * A reference segment, which points to and composes based on a stand-alone segment in the registry, falling back if it
+ * can't find it.
+ */
 class ReferenceSegment(
     val ref: ResourceLocation,
     override val fallback: String = "",
@@ -28,8 +30,10 @@ class ReferenceSegment(
         val SEGMENT_TYPE = SegmentType(CODEC)
     }
 
+    override var id: ResourceLocation? = null
+
     override fun getType(): SegmentType<*> = SpawnNotification.SegmentTypes.REFERENCE
 
-    override fun compose(context: BroadcastContext): Component =
-        SegmentData.find(ref)?.compose(context) ?: getFallback()
+    override fun compose(context: BroadcastContext): Component? =
+        SegmentDataManager.find(ref)?.compose(context) ?: getFallback()
 }

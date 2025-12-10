@@ -12,82 +12,40 @@ import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.Broadcast
 import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
 import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastType
 import us.timinc.mc.cobblemon.spawnnotification.api.condition.BroadcastCondition
-import java.util.*
 
 class SoundBroadcast(
     override val destination: ResourceLocation,
-    override val params: Params,
-    override val children: List<Broadcast.Child<ChildParams>>,
-    override val conditions: List<BroadcastCondition>,
-) : Broadcast<SoundBroadcast.Params, SoundBroadcast.ChildParams> {
+    val sound: ResourceLocation,
+    val volume: Float,
+    val pitch: Float,
+    val source: String,
+) : Broadcast {
     companion object {
-        val PARAMS_CODEC: MapCodec<Params> = RecordCodecBuilder.mapCodec { instance ->
+        val CODEC: MapCodec<SoundBroadcast> = RecordCodecBuilder.mapCodec { instance ->
             instance.group(
-                ResourceLocation.CODEC.fieldOf("sound").forGetter(Params::sound),
-                Codec.FLOAT.optionalFieldOf("volume", 1F).forGetter(Params::volume),
-                Codec.FLOAT.optionalFieldOf("pitch", 1F).forGetter(Params::pitch),
-                Codec.STRING.optionalFieldOf("source", SoundSource.NEUTRAL.name).forGetter(Params::source)
-            ).apply(instance, ::Params)
+                ResourceLocation.CODEC.fieldOf("destination").forGetter(SoundBroadcast::destination),
+                ResourceLocation.CODEC.fieldOf("sound").forGetter(SoundBroadcast::sound),
+                Codec.FLOAT.optionalFieldOf("volume", 1F).forGetter(SoundBroadcast::volume),
+                Codec.FLOAT.optionalFieldOf("pitch", 1F).forGetter(SoundBroadcast::pitch),
+                Codec.STRING.optionalFieldOf("source", SoundSource.NEUTRAL.name).forGetter(SoundBroadcast::source)
+            ).apply(instance, ::SoundBroadcast)
         }
 
-        val CHILD_CODEC: MapCodec<ChildParams> = RecordCodecBuilder.mapCodec { childInstance ->
-            childInstance.group(
-                ResourceLocation.CODEC.optionalFieldOf("sound").forGetter { Optional.ofNullable(it.sound) },
-                Codec.FLOAT.optionalFieldOf("volume").forGetter { Optional.ofNullable(it.volume) },
-                Codec.FLOAT.optionalFieldOf("pitch").forGetter { Optional.ofNullable(it.pitch) },
-                Codec.STRING.optionalFieldOf("source").forGetter { Optional.ofNullable(it.source) }
-            ).apply(childInstance) { sound, volume, pitch, source ->
-                ChildParams(
-                    sound.orElse(null),
-                    volume.orElse(null),
-                    pitch.orElse(null),
-                    source.orElse(null)
-                )
-            }
-        }
-
-        val BROADCAST_TYPE = BroadcastType(
-            PARAMS_CODEC,
-            CHILD_CODEC,
-            ::SoundBroadcast
-        )
+        val BROADCAST_TYPE = BroadcastType(CODEC)
     }
 
-    class Params(
-        val sound: ResourceLocation,
-        val volume: Float,
-        val pitch: Float,
-        val source: String,
-    )
+    override fun getType(): BroadcastType<*> = SpawnNotification.BroadcastTypes.SOUND_BROADCAST
 
-    class ChildParams(
-        val sound: ResourceLocation?,
-        val volume: Float?,
-        val pitch: Float?,
-        val source: String?,
-    )
-
-    override fun getType(): BroadcastType<*, *, *> = SpawnNotification.BroadcastTypes.SOUND_BROADCAST
-
-    override fun mergeChild(params: Params, childParams: ChildParams): Params =
-        Params(
-            childParams.sound ?: params.sound,
-            childParams.volume ?: params.volume,
-            childParams.pitch ?: params.pitch,
-            childParams.source ?: params.source,
-        )
-
-    override fun broadcast(
+    override fun deliver(
         broadcastContext: BroadcastContext,
-        params: Params,
     ) {
-        val soundEvent = SoundEvent.createVariableRangeEvent(params.sound)
+        val soundEvent = SoundEvent.createVariableRangeEvent(sound)
         broadcastContext.world.playSoundServer(
             broadcastContext.position,
             soundEvent,
-            SoundSource.valueOf(params.source),
-            params.volume,
-            params.pitch
+            SoundSource.valueOf(source),
+            volume,
+            pitch
         )
 
         val debugger = SpawnNotification.debugger.getCaseDebugger(broadcastContext.id.toString())

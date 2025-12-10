@@ -1,0 +1,10 @@
+{
+  "type": "spawn_notification:full",
+  "message": "spawn_notification.segments.dimension",
+  "segments": {
+    "1": {
+      "type": "spawn_notification:part",
+      "part": "spawn_notification:dimension"
+    }
+  }
+}

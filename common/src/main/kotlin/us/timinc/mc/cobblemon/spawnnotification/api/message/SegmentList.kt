@@ -7,44 +7,59 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
 import us.timinc.mc.cobblemon.spawnnotification.api.codec.IntKeyCodec
-import us.timinc.mc.cobblemon.spawnnotification.api.extension.getHomogenized
+import us.timinc.mc.cobblemon.spawnnotification.api.extension.fromEitherOnRightMap
+import us.timinc.mc.cobblemon.spawnnotification.api.extension.toEitherOnRightMap
+import us.timinc.mc.cobblemon.spawnnotification.data.SegmentAdditionDataManager
 import us.timinc.mc.cobblemon.spawnnotification.segment.ReferenceSegment
 
-// A list of segments, with a couple of convenience functions attached.
+/**
+ * A list of segments, with a couple of convenience functions attached.
+ */
 class SegmentList(
     val segments: Map<Int, Segment> = emptyMap(),
+    var id: ResourceLocation? = null,
 ) {
     companion object {
         val MAP_CODEC: UnboundedMapCodec<Int, Either<ResourceLocation, Segment>> =
             Codec.unboundedMap(IntKeyCodec, Segment.CODEC)
 
         fun fromEither(map: Map<Int, Either<ResourceLocation, Segment>>): Map<Int, Segment> =
-            map.entries.fold(mutableMapOf()) { acc, (k, v) ->
-                acc.plus(k to v.mapLeft(::ReferenceSegment).getHomogenized()).toMutableMap()
-            }
+            map.fromEitherOnRightMap(::ReferenceSegment)
 
         fun toEither(map: Map<Int, Segment>): Map<Int, Either<ResourceLocation, Segment>> =
-            map.entries.fold(mutableMapOf()) { acc, (k, v) ->
-                acc.plus(k to Either<ResourceLocation, Segment>.right(v)).toMutableMap()
-            }
+            map.toEitherOnRightMap()
     }
 
-    // Turns the Map into a proper Array of Components, ready to be inserted into a translatable component.
+    /**
+     * Evaluates out the Map into a proper Array of Components, ready to be inserted into a translatable component.
+     */
     fun compose(context: BroadcastContext): Array<Component> {
-        if (segments.isEmpty()) return emptyArray()
+        val usedSegments = segments.toMutableMap()
+        id?.let { id ->
+            val additions = SegmentAdditionDataManager.getAdditionsFor(id)
+            var currentIndex = usedSegments.keys.filter { it > 0 }.maxOrNull() ?: return@let
+            additions.forEach { additionData ->
+                additionData.segments.segments.forEach { (_, v) ->
+                    usedSegments[++currentIndex] = v
+                }
+            }
+        }
 
-        val validSegments = segments.filter { (k) -> k > 0 }
+        if (usedSegments.isEmpty()) return emptyArray()
+
+        val validSegments = usedSegments.filter { (k) -> k > 0 }.toSortedMap()
         val maxIndex = validSegments.keys.maxOrNull() ?: return emptyArray()
-        val composed: MutableList<Component> = MutableList(maxIndex) { Component.empty() }
+        val composed: MutableList<Component?> = MutableList(maxIndex) { null }
         for ((index, segment) in validSegments) {
             composed[index - 1] = segment.compose(context)
         }
 
-        return composed.toTypedArray()
+        return composed.filterNotNull().toTypedArray()
     }
 
-    // Returns a new SegmentList with all the segments in this list, substituting in any segments at the same index in
-    // the other list.
+    /**
+     * Returns a new SegmentList with all the segments in this list, substituting in any segments at the same index in the other list.
+     */
     fun merge(otherList: SegmentList): SegmentList {
         if (segments.isEmpty()) return SegmentList(emptyMap())
 

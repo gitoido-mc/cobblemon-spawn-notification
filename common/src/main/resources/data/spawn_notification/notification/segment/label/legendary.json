@@ -1,0 +1,12 @@
+{
+  "type": "spawn_notification:full",
+  "conditions": [
+    {
+      "type": "spawn_notification:matcher",
+      "matcher": [
+        "labels=legendary"
+      ]
+    }
+  ],
+  "message": "spawn_notification.labels.legendary"
+}

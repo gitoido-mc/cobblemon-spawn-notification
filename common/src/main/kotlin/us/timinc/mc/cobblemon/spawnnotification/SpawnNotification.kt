@@ -4,7 +4,6 @@ import com.cobblemon.mod.common.api.Priority
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.pokemon.FormData
 import net.minecraft.ChatFormatting
-import net.minecraft.core.BlockPos
 import net.minecraft.core.Holder
 import net.minecraft.core.Registry
 import net.minecraft.network.chat.Component
@@ -19,13 +18,13 @@ import us.timinc.mc.cobblemon.spawnnotification.api.condition.BroadcastCondition
 import us.timinc.mc.cobblemon.spawnnotification.api.message.Part
 import us.timinc.mc.cobblemon.spawnnotification.api.message.Segment
 import us.timinc.mc.cobblemon.spawnnotification.api.message.SegmentType
-import us.timinc.mc.cobblemon.spawnnotification.broadcast.ActionBarBroadcast
 import us.timinc.mc.cobblemon.spawnnotification.broadcast.ChatBroadcast
 import us.timinc.mc.cobblemon.spawnnotification.broadcast.SoundBroadcast
-import us.timinc.mc.cobblemon.spawnnotification.condition.FlagCondition
 import us.timinc.mc.cobblemon.spawnnotification.condition.MatcherCondition
-import us.timinc.mc.cobblemon.spawnnotification.data.NotificationData
-import us.timinc.mc.cobblemon.spawnnotification.data.SegmentData
+import us.timinc.mc.cobblemon.spawnnotification.data.BroadcastDataManager
+import us.timinc.mc.cobblemon.spawnnotification.data.SegmentAdditionDataManager
+import us.timinc.mc.cobblemon.spawnnotification.data.SegmentDataManager
+import us.timinc.mc.cobblemon.spawnnotification.data.SituationDataManager
 import us.timinc.mc.cobblemon.spawnnotification.handler.*
 import us.timinc.mc.cobblemon.spawnnotification.part.*
 import us.timinc.mc.cobblemon.spawnnotification.segment.FullSegment
@@ -44,21 +43,20 @@ object SpawnNotification :
         val broadcastRange: Int = -1
         val playerLimit: Int = -1
         val broadcastAcrossDimensions: Boolean = false
-        val coordinatePartKey: String = "spawn_notification.parts.coords"
-        val disabledFlags: List<String> = listOf(
-            "spawn_notification:waypoints/xaeros",
-            "spawn_notification:waypoints/journeymap"
-        )
+        val actionBar: Boolean = false
         val baseColor: String = ChatFormatting.GRAY.name
-        val baseColors: Map<String, String> = mapOf(
+        val partColors: Map<String, String> = mapOf(
             "spawn_notification:pokemon_species" to ChatFormatting.WHITE.name,
             "spawn_notification:pokemon_form" to ChatFormatting.WHITE.name,
             "spawn_notification:player_name" to ChatFormatting.WHITE.name,
-            "spawn_notification:coordinates" to ChatFormatting.WHITE.name,
+            "spawn_notification:coord_x" to ChatFormatting.WHITE.name,
+            "spawn_notification:coord_y" to ChatFormatting.WHITE.name,
+            "spawn_notification:coord_z" to ChatFormatting.WHITE.name,
             "spawn_notification:biome" to ChatFormatting.WHITE.name,
             "spawn_notification:dimension" to ChatFormatting.WHITE.name,
             "spawn_notification:bucket" to ChatFormatting.WHITE.name,
         )
+        val disabledSituations: Set<String> = mutableSetOf()
     }
 
     object KEYS {
@@ -71,11 +69,11 @@ object SpawnNotification :
             val DIED = modResource("died")
             val DESPAWNED = modResource("despawned")
             val RESURRECTED = modResource("resurrected")
+            val HATCHED = modResource("hatched")
         }
 
         object DESTINATIONS {
             val CHAT = modResource("chat")
-            val ACTION_BAR = modResource("action_bar")
             val SOUND = modResource("sound")
         }
 
@@ -83,15 +81,18 @@ object SpawnNotification :
             val POKEMON_SPECIES = modResource("pokemon_species")
             val POKEMON_FORM = modResource("pokemon_form")
             val PLAYER_NAME = modResource("player_name")
-            val COORDINATES = modResource("coordinates")
             val BIOME = modResource("biome")
             val DIMENSION = modResource("dimension")
             val BUCKET = modResource("bucket")
+            val COORD_X = modResource("coord_x")
+            val COORD_Y = modResource("coord_y")
+            val COORD_Z = modResource("coord_z")
+            val DIM_RAW_PATH = modResource("dim_raw_path")
+            val DIM_RAW_NAMESPACE = modResource("dim_raw_namespace")
         }
 
         object CONDITIONS {
             val MATCHER = modResource("matcher")
-            val FLAG = modResource("flag")
         }
 
         object SEGMENTS {
@@ -122,20 +123,16 @@ object SpawnNotification :
 
         fun biome(biome: Holder<net.minecraft.world.level.biome.Biome>): MutableComponent =
             Component.translatable("biome.${biome.unwrapKey().get().location().toLanguageKey()}")
-
-        fun coordinates(blockPos: BlockPos): MutableComponent =
-            Component.translatable(config.coordinatePartKey, blockPos.x, blockPos.y, blockPos.z)
     }
 
     object BroadcastTypes {
         val CHAT_BROADCAST = register(KEYS.DESTINATIONS.CHAT, ChatBroadcast.BROADCAST_TYPE)
-        val ACTION_BAR_BROADCAST = register(KEYS.DESTINATIONS.ACTION_BAR, ActionBarBroadcast.BROADCAST_TYPE)
         val SOUND_BROADCAST = register(KEYS.DESTINATIONS.SOUND, SoundBroadcast.BROADCAST_TYPE)
 
-        fun <P, C, T : Broadcast<P, C>> register(
+        fun <T : Broadcast> register(
             id: ResourceLocation,
-            broadcastType: BroadcastType<P, C, T>,
-        ): BroadcastType<P, C, T> {
+            broadcastType: BroadcastType<T>,
+        ): BroadcastType<T> {
             return Registry.register(BroadcastType.REGISTRY, id, broadcastType)
         }
     }
@@ -143,11 +140,15 @@ object SpawnNotification :
     object Parts {
         val BIOME = register(KEYS.PARTS.BIOME, Biome)
         val BUCKET = register(KEYS.PARTS.BUCKET, Bucket)
-        val COORDINATES = register(KEYS.PARTS.COORDINATES, Coordinates)
         val DIMENSION = register(KEYS.PARTS.DIMENSION, Dimension)
         val PLAYER_NAME = register(KEYS.PARTS.PLAYER_NAME, PlayerName)
         val POKEMON_FORM = register(KEYS.PARTS.POKEMON_FORM, PokemonForm)
         val POKEMON_SPECIES = register(KEYS.PARTS.POKEMON_SPECIES, PokemonSpecies)
+        val COORD_X = register(KEYS.PARTS.COORD_X, CoordX)
+        val COORD_Y = register(KEYS.PARTS.COORD_Y, CoordY)
+        val COORD_Z = register(KEYS.PARTS.COORD_Z, CoordZ)
+        val DIM_RAW_PATH = register(KEYS.PARTS.DIM_RAW_PATH, DimRawPath)
+        val DIM_RAW_NAMESPACE = register(KEYS.PARTS.DIM_RAW_NAMESPACE, DimRawNamespace)
 
         fun <T : Part> register(
             id: ResourceLocation,
@@ -159,7 +160,6 @@ object SpawnNotification :
 
     object ConditionTypes {
         val MATCHER = register(KEYS.CONDITIONS.MATCHER, MatcherCondition.CONDITION_TYPE)
-        val FLAG = register(KEYS.CONDITIONS.FLAG, FlagCondition.CONDITION_TYPE)
 
         fun <T : BroadcastCondition> register(
             id: ResourceLocation,
@@ -188,8 +188,10 @@ object SpawnNotification :
         ConditionTypes
         SegmentTypes
 
-        registerReloadListener(SegmentData)
-        registerReloadListener(NotificationData.Manager)
+        registerReloadListener(SegmentDataManager)
+        registerReloadListener(SituationDataManager)
+        registerReloadListener(SegmentAdditionDataManager)
+        registerReloadListener(BroadcastDataManager)
 
         TimCoreEvents.POKEMON_ENTITY_DID_SPAWN.subscribe(Priority.NORMAL, SpawnTriggers::handle)
         TimCoreEvents.POKEMON_ENTITY_LOAD.subscribe(Priority.LOWEST, UnnaturalSpawnTrigger::handle)
@@ -198,5 +200,6 @@ object SpawnNotification :
         CobblemonEvents.POKEMON_FAINTED.subscribe(Priority.NORMAL, DieTrigger::handle)
         CobblemonEvents.BATTLE_FAINTED.subscribe(Priority.NORMAL, FaintTrigger::handle)
         CobblemonEvents.FOSSIL_REVIVED.subscribe(Priority.NORMAL, ResurrectTrigger::handle)
+        CobblemonEvents.HATCH_EGG_POST.subscribe(Priority.NORMAL, HatchTrigger::handle)
     }
 }

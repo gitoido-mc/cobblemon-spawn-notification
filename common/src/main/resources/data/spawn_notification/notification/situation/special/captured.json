@@ -1,0 +1,13 @@
+{
+  "triggers": [
+    "spawn_notification:captured"
+  ],
+  "conditions": [
+    {
+      "type": "spawn_notification:matcher",
+      "matcher": [
+        "labels=legendary,mythical,ultra_beast,paradox any_label"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "type": "spawn_notification:full",
+  "segments": {
+    "1": "spawn_notification:shiny",
+    "2": "spawn_notification:label",
+    "3": "spawn_notification:max_ivs"
+  },
+  "delimiter": " ",
+  "after": " "
+}

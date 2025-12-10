@@ -7,6 +7,9 @@ import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import us.timinc.mc.cobblemon.spawnnotification.SpawnNotification
 
+/**
+ * Add segment types of your own if you choose!
+ */
 data class SegmentType<T : Segment>(
     val codec: MapCodec<T>,
 ) {

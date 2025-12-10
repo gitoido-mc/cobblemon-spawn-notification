@@ -1,0 +1,8 @@
+{
+  "type": "spawn_notification:full",
+  "segments": {
+    "1": "spawn_notification:packed/description",
+    "2": "spawn_notification:pokemon_species"
+  },
+  "delimiter": " "
+}
