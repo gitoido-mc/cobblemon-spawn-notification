@@ -1,0 +1,12 @@
+{
+  "type": "spawn_notification:full",
+  "conditions": [
+    {
+      "type": "spawn_notification:matcher",
+      "matcher": [
+        "labels=ultra_beast"
+      ]
+    }
+  ],
+  "message": "spawn_notification.labels.ultra_beast"
+}

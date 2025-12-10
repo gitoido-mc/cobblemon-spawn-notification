@@ -1,20 +1,26 @@
 package us.timinc.mc.cobblemon.spawnnotification
 
 import net.minecraft.resources.ResourceLocation
-import us.timinc.mc.cobblemon.spawnnotification.context.BroadcastContext
-import us.timinc.mc.cobblemon.spawnnotification.data.AbstractBroadcastData
-import us.timinc.mc.cobblemon.timcore.TimCore
+import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
+import us.timinc.mc.cobblemon.spawnnotification.data.BroadcastDataManager
+import us.timinc.mc.cobblemon.spawnnotification.data.SituationDataManager
 
 object Broadcaster {
     fun broadcast(broadcastContext: BroadcastContext, trigger: ResourceLocation) {
-        val broadcasts = AbstractBroadcastData.Manager.findMatches(broadcastContext.pokemon, trigger)
-
-        val debugger = SpawnNotification.debugger.getCaseDebugger(broadcastContext.id.toString())
-        debugger.debug("Found ${broadcasts.size} broadcasts for $trigger w/context $broadcastContext")
-
-        for (broadcastData in broadcasts) {
-            debugger.debug("Broadcasting for ${broadcastData.id}")
-            broadcastData.broadcast(broadcastContext)
+        val situations = SituationDataManager.findMatches(broadcastContext, trigger)
+            .filter { situationId ->
+                !SpawnNotification.config.disabledSituations.any { disabledSituation ->
+                    disabledSituation.replace(
+                        "*",
+                        ".*"
+                    ).toRegex().matches(situationId.toString())
+                }
+            }
+        val broadcastContextWithSituations = broadcastContext.withSituations(situations)
+        situations.forEach { situationId ->
+            BroadcastDataManager.findAllBroadcastsForNotification(situationId).forEach { broadcast ->
+                broadcast.deliver(broadcastContextWithSituations)
+            }
         }
     }
 }

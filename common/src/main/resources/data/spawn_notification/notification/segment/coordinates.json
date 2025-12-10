@@ -1,0 +1,7 @@
+{
+  "type": "spawn_notification:full",
+  "message": "spawn_notification.segments.coordinates",
+  "segments": {
+    "1": "spawn_notification:part/coordinates"
+  }
+}

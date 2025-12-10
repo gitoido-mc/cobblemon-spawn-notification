@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import us.timinc.mc.cobblemon.spawnnotification.Broadcaster
 import us.timinc.mc.cobblemon.spawnnotification.SpawnNotification
-import us.timinc.mc.cobblemon.spawnnotification.context.BroadcastContext
+import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
 import us.timinc.mc.cobblemon.timcore.AbstractHandler
 
 object DieTrigger : AbstractHandler<PokemonFaintedEvent>() {

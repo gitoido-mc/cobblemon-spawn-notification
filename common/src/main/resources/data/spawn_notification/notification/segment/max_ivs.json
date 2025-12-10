@@ -1,0 +1,12 @@
+{
+  "type": "spawn_notification:full",
+  "conditions": [
+    {
+      "type": "spawn_notification:matcher",
+      "matcher": [
+        "max_ivs=6"
+      ]
+    }
+  ],
+  "message": "spawn_notification.max_ivs"
+}

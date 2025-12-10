@@ -1,0 +1,5 @@
+{
+  "type": "spawn_notification:part",
+  "part": "spawn_notification:player_name",
+  "fallback": "spawn_notification.parts.player.unknown"
+}

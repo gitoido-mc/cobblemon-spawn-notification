@@ -1,9 +1,11 @@
 package us.timinc.mc.cobblemon.spawnnotification.part
 
-import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
 import us.timinc.mc.cobblemon.spawnnotification.SpawnNotification
-import us.timinc.mc.cobblemon.spawnnotification.context.BroadcastContext
+import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.BroadcastContext
+import us.timinc.mc.cobblemon.spawnnotification.api.message.Part
 
-object PokemonForm : Part() {
-    override fun getPart(ctx: BroadcastContext): Component = SpawnNotification.COMPONENTS.form(ctx.pokemon.form)
+object PokemonForm : Part {
+    override fun compose(context: BroadcastContext): MutableComponent =
+        SpawnNotification.COMPONENTS.form(context.pokemon.form)
 }
