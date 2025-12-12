@@ -58,7 +58,7 @@ As a quick test, jump into a world where you have OP powers, and run `/pokespawn
 
 ## Known Issues
 
-- None. Why? Who’s asking? 👀
+- v1.7.1-2.2.0 was missing the wildcard logic for `disabledSituations`. v1.7.1-2.2.1 remedied this.
 
 ## Roadmap
 
