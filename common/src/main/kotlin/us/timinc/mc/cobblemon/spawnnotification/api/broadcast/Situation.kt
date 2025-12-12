@@ -27,6 +27,13 @@ class Situation(
     fun matches(context: BroadcastContext) = conditions.all { it.matches(context) }
 
     val disabled: Boolean by lazy {
-        id?.let { SpawnNotification.config.disabledSituations.contains(it.toString()) } ?: false
+        id?.let {
+            SpawnNotification.config.disabledSituations.any { disabledSituation ->
+                disabledSituation.replace(
+                    "*",
+                    ".*"
+                ).toRegex().matches(it.toString())
+            }
+        } ?: false
     }
 }
