@@ -18,7 +18,7 @@ class Message(
      * Evaluates out a translatable component from the message and its segments.
      */
     fun compose(context: BroadcastContext.WithSituations): MutableComponent? {
-        val translatedSegments = segments.compose(context)
+        val translatedSegments = segments.compose(context, message != null)
         if (translatedSegments.isEmpty() && message == null) return null
         val usedMessage =
             message ?: "$before${List(translatedSegments.size) { i -> $$"%$${i + 1}$s" }.joinToString(delimiter)}$after"
