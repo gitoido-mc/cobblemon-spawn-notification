@@ -59,6 +59,8 @@ As a quick test, jump into a world where you have OP powers, and run `/pokespawn
 ## Known Issues
 
 - v1.7.1-2.2.0 was missing the wildcard logic for `disabledSituations`. v1.7.1-2.2.1 remedied this.
+- ≤v1.7.1-2.2.1 would break messages with fixed message templates if the full segment list wasn’t preserved, on NeoForge. v1.7.1-2.2.2 remedied this.
+- ≤v1.7.1-2.2.1 wouldn’t update whether or not a situation was disabled unless you reloaded the data, even though you can change that in the config. v1.7.1-2.2.2 remedied this.
 
 ## Roadmap
 
