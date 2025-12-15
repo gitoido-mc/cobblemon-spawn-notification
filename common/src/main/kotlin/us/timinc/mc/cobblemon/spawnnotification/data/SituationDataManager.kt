@@ -11,26 +11,26 @@ import us.timinc.mc.cobblemon.spawnnotification.api.broadcast.Situation
 import us.timinc.mc.cobblemon.timcore.AbstractReloadListener
 
 object SituationDataManager : AbstractReloadListener(Gson(), "notification/situation") {
-    private val notifications: MutableMap<ResourceLocation, MutableList<Situation>> = mutableMapOf()
+    private val situations: MutableMap<ResourceLocation, MutableList<Situation>> = mutableMapOf()
 
     override fun apply(
         objectMap: MutableMap<ResourceLocation, JsonElement>,
         resourceManager: ResourceManager,
         profilerFiller: ProfilerFiller,
     ) {
-        notifications.clear()
+        situations.clear()
         objectMap.entries.forEach { (id, json) ->
-            val notification = Situation.CODEC.parse(JsonOps.INSTANCE, json).orThrow
-            notification.id = id
-            for (trigger in notification.triggers) {
-                notifications.getOrPut(trigger, ::mutableListOf).add(notification)
+            val situation = Situation.CODEC.parse(JsonOps.INSTANCE, json).orThrow
+            situation.id = id
+            for (trigger in situation.triggers) {
+                situations.getOrPut(trigger, ::mutableListOf).add(situation)
             }
         }
     }
 
     fun findMatches(context: BroadcastContext, trigger: ResourceLocation): Set<ResourceLocation> {
         val matches: MutableSet<ResourceLocation> = mutableSetOf()
-        for (notification in notifications[trigger] ?: return emptySet()) {
+        for (notification in situations[trigger] ?: return emptySet()) {
             if (notification.id != null && notification.matches(context) && !notification.disabled) {
                 matches += notification.id!!
                 matches += notification.otherSituations

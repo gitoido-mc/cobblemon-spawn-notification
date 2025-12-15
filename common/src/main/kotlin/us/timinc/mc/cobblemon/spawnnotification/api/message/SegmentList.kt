@@ -33,7 +33,7 @@ class SegmentList(
     /**
      * Evaluates out the Map into a proper Array of Components, ready to be inserted into a translatable component.
      */
-    fun compose(context: BroadcastContext.WithSituations): Array<Component> {
+    fun compose(context: BroadcastContext.WithSituations, preserveSegmentCount: Boolean = false): Array<Component> {
         val usedSegments = segments.toMutableMap()
         id?.let { id ->
             val additions = SegmentAdditionDataManager.getAdditionsFor(id)
@@ -51,7 +51,7 @@ class SegmentList(
         val maxIndex = validSegments.keys.maxOrNull() ?: return emptyArray()
         val composed: MutableList<Component?> = MutableList(maxIndex) { null }
         for ((index, segment) in validSegments) {
-            composed[index - 1] = segment.validateAndCompose(context)
+            composed[index - 1] = segment.validateAndCompose(context) ?: (if (preserveSegmentCount) Component.empty() else null)
         }
 
         return composed.filterNotNull().toTypedArray()
