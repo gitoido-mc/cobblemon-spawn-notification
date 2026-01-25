@@ -7,6 +7,7 @@ import us.timinc.mc.cobblemon.spawnnotification.data.SituationDataManager
 
 object Broadcaster {
     fun broadcast(broadcastContext: BroadcastContext, trigger: ResourceLocation) {
+        if ((broadcastContext.player?.isSpectator ?: false) && SpawnNotification.config.ignoreSpectators) return
         val situations = SituationDataManager.findMatches(broadcastContext, trigger)
             .filter { situationId ->
                 !SpawnNotification.config.disabledSituations.any { disabledSituation ->
