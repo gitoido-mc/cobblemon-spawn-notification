@@ -1,6 +1,6 @@
 # Spawn Notification
 
-v1.7.1-2.2
+v1.7.2-2.2
 
 [Modrinth](https://modrinth.com/mod/cobblemon-spawn-notification)
 
@@ -40,21 +40,21 @@ As a quick test, jump into a world where you have OP powers, and run `/pokespawn
 
 ## Player Help
 
-[How it works](https://www.notion.so/How-it-works-2c557e0d4afd8025b39af043a62af621?pvs=21)
+[How it works](https://www.notion.so/How-it-works-2f357e0d4afd810f9196ddbce7bbb0f1?pvs=21)
 
-[Config Options](https://www.notion.so/Config-Options-2c557e0d4afd80508bc2c6fc6d14f1d1?pvs=21)
+[Config Options](https://www.notion.so/Config-Options-2f357e0d4afd81458d5dfeaaabde9b80?pvs=21)
 
 ## Addon Dev Help
 
 ### Data Pack Help
 
-[Pokémon Custom Properties](https://www.notion.so/Pok-mon-Custom-Properties-2c557e0d4afd809b8eefef2e98ed34b4?pvs=21)
+[Pokémon Custom Properties](https://www.notion.so/Pok-mon-Custom-Properties-2f357e0d4afd81119abbd444d2413cb8?pvs=21)
 
-[Making an Addon](https://www.notion.so/Making-an-Addon-2c557e0d4afd80d58482d2a5808357dd?pvs=21)
+[Making an Addon](https://www.notion.so/Making-an-Addon-2f357e0d4afd8155b302fe5e15f24984?pvs=21)
 
 ### Resource Pack Help
 
-[Translations](https://www.notion.so/Translations-2c557e0d4afd80289f46ef5aa58c8927?pvs=21)
+[Translations](https://www.notion.so/Translations-2f357e0d4afd81e4af9ac34247f096dc?pvs=21)
 
 ## Known Issues
 
