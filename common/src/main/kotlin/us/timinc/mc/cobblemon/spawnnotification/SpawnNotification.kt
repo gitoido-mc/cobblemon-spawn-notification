@@ -84,6 +84,7 @@ object SpawnNotification :
                 )
             )
         )
+        val ignoreSpectators: Boolean = true
     }
 
     object KEYS {
